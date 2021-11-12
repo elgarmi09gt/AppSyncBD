@@ -93,28 +93,28 @@ return [
 
         'oracle' => [
             'driver' => 'oracle',
-            'host' => env('DB_HOST', '172.16.1.71'),
+            'host' => env('DB_HOST', 'localhost'),
             'port' => env('DB_PORT', '1521'),
-            'database' => env('DB_DATABASE', 'logucad'),
-            'username' => env('DB_USERNAME', 'scol_refonte'),
-            'password' => env('DB_PASSWORD', 'refonte2017'),
-            'service_name' => 'logucad.winucad.sn',
+            'database' => env('DB_DATABASE', 'forge'),
+            'username' => env('DB_USERNAME', 'forge'),
+            'password' => env('DB_PASSWORD', ''),
+            'service_name' => env('DB_SERVICE', 'sid_alias'),
             'charset' => '',
             'prefix' => '',
         ],
 
         'oracleScol' => [
             'driver' => 'oracle',
-            'host' => env('DB_HOST_Scol', '172.16.1.61'),
-            'port' => env('DB_PORT_Scol', '1555'),
-            'database' => env('DB_DATABASE_Scol', 'scolProd'),
-            'username' => env('DB_USERNAME_Scol', 'refonte'),
-            'password' => env('DB_PASSWORD_Scol', 'Ref0nte1'),
-            'service_name' => 'scolProd',
+            'host' => env('DB_HOST_Scol', 'localhost'),
+            'port' => env('DB_PORT_Scol', '1521'),
+            'database' => env('DB_DATABASE_Scol', 'forge'),
+            'username' => env('DB_USERNAME_Scol', 'forge'),
+            'password' => env('DB_PASSWORD_Scol', ''),
+            'service_name' => env('DB_SERVICE_Scol', 'sid_alias'),
             'charset' => '',
             'prefix' => '',
         ],
-        
+
     ],
 
     /*
