@@ -89,16 +89,16 @@ class FormationController extends Controller
                     //Insert if not exist in structure and in historique structure
                     $scolEcolDoctorale = ScolEcoleDoctorale::where('code', $scolFormation->code_edoc)->first();
                     if ($scolEcolDoctorale) {
-                        $etab = Etablissement::where('libelle_long', strtoupper(Str::ascii($scolEcolDoctorale->libelle_long)))
-                            ->where('libelle_court', strtoupper(str_replace(".", "", $scolEcolDoctorale->libelle_court)))
+                        $etab = Etablissement::where('libelle_long', mb_strtoupper($scolEcolDoctorale->libelle_long))
+                            ->where('libelle_court', mb_strtoupper(str_replace(".", "", $scolEcolDoctorale->libelle_court)))
                             ->where('id_type_section', 135)
                             ->first();
                         //dump($etab);
                         if (!$etab) {
                             try {
                                 $etb = DB::connection('oracle')->table('structures')->insert([
-                                    'libelle_long' => strtoupper(Str::ascii($scolEcolDoctorale->libelle_long)),
-                                    'libelle_court' => strtoupper(str_replace(".", "", $scolEcolDoctorale->libelle_court)),
+                                    'libelle_long' => mb_strtoupper($scolEcolDoctorale->libelle_long),
+                                    'libelle_court' => mb_strtoupper(str_replace(".", "", $scolEcolDoctorale->libelle_court)),
                                     'id_type_section' => 135,
                                     'url' => strtolower('https://www.' . $scolEcolDoctorale->libelle_court . '.sn'),
                                     'email' => strtolower($scolEcolDoctorale->libelle_court . '@ucad.edu.sn'),
@@ -107,30 +107,30 @@ class FormationController extends Controller
                                     'adresse' => 'UCAD/Dakar'
                                 ]);
                                 if ($etb) {
-                                    $etab1 = Etablissement::where('libelle_long', strtoupper(Str::ascii($scolEcolDoctorale->libelle_long)))
-                                        ->where('libelle_court', strtoupper(str_replace(".", "", $scolEcolDoctorale->libelle_court)))
+                                    $etab1 = Etablissement::where('libelle_long', mb_strtoupper($scolEcolDoctorale->libelle_long))
+                                        ->where('libelle_court', mb_strtoupper(str_replace(".", "", $scolEcolDoctorale->libelle_court)))
                                         ->where('id_type_section', 135)
                                         ->first();
                                     //dump($etab1);
-                                    $dept = Departement::where('libelle_long', strtoupper(Str::ascii(str_replace(".", "", $scolEcolDoctorale->libelle_long))))
-                                        ->where('libelle_court', strtoupper(Str::ascii(str_replace(".", "", $scolEcolDoctorale->libelle_court))))
+                                    $dept = Departement::where('libelle_long', mb_strtoupper(str_replace(".", "", $scolEcolDoctorale->libelle_long)))
+                                        ->where('libelle_court', mb_strtoupper(str_replace(".", "", $scolEcolDoctorale->libelle_court)))
                                         ->where('id_structures', $etab1->id_structure)
                                         ->first();
                                     //dump($dept);
                                     if (!$dept) {
                                         try {
                                             $dpt = DB::connection('oracle')->table('Historiques_structures')->insert([
-                                                'libelle_long' => strtoupper(Str::ascii(str_replace(".", "", $scolEcolDoctorale->libelle_long))),
-                                                'libelle_court' => strtoupper(Str::ascii(str_replace(".", "", $scolEcolDoctorale->libelle_court))),
+                                                'libelle_long' => mb_strtoupper(str_replace(".", "", $scolEcolDoctorale->libelle_long)),
+                                                'libelle_court' => mb_strtoupper(str_replace(".", "", $scolEcolDoctorale->libelle_court)),
                                                 'id_structures' => $etab1->id_structure,
                                                 'uti_cree' => 33,
                                             ]);
                                             if ($dpt) {
                                                 $dept1 = Departement::where(
                                                     'libelle_long',
-                                                    strtoupper(Str::ascii(str_replace(".", "", $scolEcolDoctorale->libelle_long)))
+                                                    mb_strtoupper(str_replace(".", "", $scolEcolDoctorale->libelle_long))
                                                 )
-                                                    ->where('libelle_court', strtoupper(Str::ascii(str_replace(".", "", $scolEcolDoctorale->libelle_court))))
+                                                    ->where('libelle_court', mb_strtoupper(str_replace(".", "", $scolEcolDoctorale->libelle_court)))
                                                     ->where('id_structures', $etab1->id_structure)
                                                     ->first();
                                                 //dump($dept1);
@@ -278,22 +278,22 @@ class FormationController extends Controller
                             } catch (Exception $ex) {
                             }
                         } else {
-                            $dept = Departement::where('libelle_long', strtoupper(Str::ascii(str_replace(".", "", $scolEcolDoctorale->libelle_long))))
-                                ->where('libelle_court', strtoupper(Str::ascii(str_replace(".", "", $scolEcolDoctorale->libelle_court))))
+                            $dept = Departement::where('libelle_long', mb_strtoupper(str_replace(".", "", $scolEcolDoctorale->libelle_long)))
+                                ->where('libelle_court', mb_strtoupper(str_replace(".", "", $scolEcolDoctorale->libelle_court)))
                                 ->where('id_structures', $etab->id_structure)
                                 ->first();
                             //dump($dept);
                             if (!$dept) {
                                 try {
                                     $dpt = DB::connection('oracle')->table('Historiques_structures')->insert([
-                                        'libelle_long' => strtoupper(Str::ascii(str_replace(".", "", $scolEcolDoctorale->libelle_long))),
-                                        'libelle_court' => strtoupper(Str::ascii(str_replace(".", "", $scolEcolDoctorale->libelle_court))),
+                                        'libelle_long' => mb_strtoupper(str_replace(".", "", $scolEcolDoctorale->libelle_long)),
+                                        'libelle_court' => mb_strtoupper(str_replace(".", "", $scolEcolDoctorale->libelle_court)),
                                         'id_structures' => $etab->id_structure,
                                         'uti_cree' => 33,
                                     ]);
                                     if ($dpt) {
-                                        $dept1 = Departement::where('libelle_long', strtoupper(Str::ascii(str_replace(".", "", $scolEcolDoctorale->libelle_long))))
-                                            ->where('libelle_court', strtoupper(Str::ascii(str_replace(".", "", $scolEcolDoctorale->libelle_court))))
+                                        $dept1 = Departement::where('libelle_long', mb_strtoupper(str_replace(".", "", $scolEcolDoctorale->libelle_long)))
+                                            ->where('libelle_court', mb_strtoupper(str_replace(".", "", $scolEcolDoctorale->libelle_court)))
                                             ->where('id_structures', $etab->id_structure)
                                             ->first();
                                         //dump($dept1);
@@ -484,13 +484,13 @@ class FormationController extends Controller
                     if ($scolDepartement->etablissem_code) {
                         $scolStruct = ScolEtablissement::where('code', $scolDepartement->etablissem_code)->first();
                         if ($scolStruct) {
-                            $struct = Etablissement::where('libelle_long', strtoupper(Str::ascii($scolStruct->libelle)))
-                                ->where('libelle_court', strtoupper(str_replace(".", "", $scolStruct->sigle)))
+                            $struct = Etablissement::where('libelle_long', mb_strtoupper($scolStruct->libelle))
+                                ->where('libelle_court', mb_strtoupper(str_replace(".", "", $scolStruct->sigle)))
                                 ->first();
                             //dump($struct);
                             if ($struct) {
-                                $departement = Departement::where('libelle_long', strtoupper(Str::ascii(str_replace(".", "", $scolDepartement->libelle_long))))
-                                    ->where('libelle_court', strtoupper(Str::ascii(str_replace(".", "", $scolDepartement->libelle_court))))
+                                $departement = Departement::where('libelle_long', mb_strtoupper(str_replace(".", "", $scolDepartement->libelle_long)))
+                                    ->where('libelle_court', mb_strtoupper(Str::ascii(str_replace(".", "", $scolDepartement->libelle_court))))
                                     ->where('id_structures', $struct->id_structure)
                                     ->first();
                                 //dump($departement);

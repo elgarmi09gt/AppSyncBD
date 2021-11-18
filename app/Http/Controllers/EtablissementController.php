@@ -22,8 +22,9 @@ class EtablissementController extends Controller
     public function synchEtablissement(){
         $etabScol = Etablissement::all();
         foreach($etabScol as $etabsc){
-            $is_etab_exist = Structure::where('libelle_long', strtoupper($etabsc->libelle))
-            ->orwhere('libelle_court',strtoupper(str_replace(".","",$etabsc->sigle)))
+            //dump(mb_strtoupper($etabsc->libelle));
+            $is_etab_exist = Structure::where('libelle_long', mb_strtoupper($etabsc->libelle))
+            ->orwhere('libelle_court',mb_strtoupper(str_replace(".","",$etabsc->sigle)))
             ->count();
             if($is_etab_exist == 0){
                 echo strtolower(str_replace(".","",$etabsc->sigle))."@ucad.edu.sn<br>";
@@ -53,8 +54,8 @@ class EtablissementController extends Controller
                     else{ $adresse = $etabsc->adresse; }
                     try{
                         DB::connection('oracle')->table('structures')->insert([
-                        'libelle_long' => strtoupper(Str::ascii($etabsc->libelle)),
-                        'libelle_court' =>strtoupper(str_replace(".","",$etabsc->sigle)) ,
+                        'libelle_long' => mb_strtoupper($etabsc->libelle),
+                        'libelle_court' =>mb_strtoupper(str_replace(".","",$etabsc->sigle)) ,
                         'id_type_section'=>$id_type_section,
                         'url'=>$url,
                         'email'=>$email,
