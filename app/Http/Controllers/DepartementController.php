@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Ref\Departement;
 use App\Models\Scol\Departement as Section;
 use App\Models\Ref\Etablissement as Structure;
 use App\Models\Scol\Etablissement;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Exception;
 
 class DepartementController extends Controller
@@ -17,16 +15,8 @@ class DepartementController extends Controller
     {
         //dd(mb_strtoupper('è'));
         //Département dans Scolarite
-        $sections = Section::all();
-        /*where('type_section','!=',null)
-        ->where('ETABLISSEM_CODE','A')
+        $sections = Section::whereIn('type_section',[1,3])
         ->get();
-        echo "Département dans Scolarite avec type_section";
-        dump($sections);
-        $sections1 = Section::where('ETABLISSEM_CODE','A')
-        ->get();
-        echo "Département dans Scolarite pas type_section";
-        dump($sections1);*/
         foreach ($sections as $section) {
             if(str_starts_with($section->libelle_long, '..')){
                 $section->libelle_long = "Tron Commun";
@@ -38,6 +28,7 @@ class DepartementController extends Controller
             dump($etab);*/
             if ($etab) {
                 //Etablissement dans Refonte(Structures)
+                //dump(mb_strtoupper($etab->libelle));
                 $struct = Structure::where('libelle_long', mb_strtoupper($etab->libelle))
                 ->where('libelle_court',mb_strtoupper(str_replace(".","",$etab->sigle)))
                 ->first();

@@ -40,3 +40,7 @@ Route::get('/option', [OptionController::class, 'syncOption'])->name('syncOption
 Route::get('/ecoleDoc', [EcoleDoctoraleController::class, 'syncEcoleDoctorale'])->name('syncEcoleDoc');
 Route::get('/form', [FormationController::class, 'syncFormation'])->name('syncForm');
 Route::get('/nivform', [NiveauFormationController::class, 'syncNiveauFormation'])->name('syncNivForm');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

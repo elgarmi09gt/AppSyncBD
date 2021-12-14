@@ -11,6 +11,16 @@ use Illuminate\Support\Str;
 
 class EtablissementController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     function randomNumberSequence($requiredLength = 6, $highestDigit = 9) {
         $sequence = '33 8';
         for ($i = 0; $i < $requiredLength; ++$i) {
